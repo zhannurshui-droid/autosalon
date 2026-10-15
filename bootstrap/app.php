@@ -12,7 +12,13 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        $middleware->web(append: [
+            \App\Http\Middleware\LogVisit::class,
+        ]);
+        $middleware->alias([
+            'admin.key'=> \App\Http\Middleware\CheckAdminKey::class,
+            'hours' => \App\Http\Middleware\WorkingHours::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(

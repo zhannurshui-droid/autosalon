@@ -1,32 +1,32 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CarController;
+use App\Http\Controllers\PageController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\CarController as AdminCarController;
+use App\Http\Controllers\Admin\LogoutController;
 
-Route::get('/', function () {
-    return view('home');
-})->name('home');
+Route::get('/',[PageController::class, 'home'])->name('home');
+Route::get('/about',[PageController::class, 'about'])->name('about');
+Route::get('/contacts',[PageController::class, 'contacts'])->name('contacts');
+Route::get('/rules',[PageController::class, 'rules'])->name('rules');
+Route::get('/hello/{name}',[PageController::class, 'hello']);
 
-Route::get('/about', function () {
-    return view('about', [
-        'fio'   => 'Шуйнишбаев Жаннур Адилмуратович',
-        'group' => '3ПОВТ-24Б',
-        'info'  => 'Сайт автосалона: каталог автомобилей, '
-                 . 'страницы с описанием и контакты. '
-    ]);
-})->name('about');
+Route::get('/cars',[CarController::class, 'index'])->name('cars.index');
 
-Route::get('/contacts', function () {
-    return view('contacts', [
-        'address' => 'г. Костанай, Чернышевская, 53',
-        'phone'   => '+777777777',
-        'email'   => 'info@autosalon.example',
-    ]);
-})->name('contacts');
+Route::get('/cars/{id}',[CarController::class,'show'])
+  ->whereNumber('id')
+  ->name('cars.show');
 
-Route::get('/hello/{name}', function ($name) {
-    return 'Здравствуйте, ' . e($name) . '! Добро пожаловать в ' . config('app.name') . '.';
+Route::redirect('/main','/');
+
+Route::prefix('admin')->name('admin.')->middleware('admin.key')->group(function() {
+    Route::get('/',DashboardController::class)->name('dashboard');
+    Route::get('/cars',[AdminCarController::class, 'index'])->name('cars');
+    Route::get('/cars/create',[AdminCarController::class, 'create'])->name('cars.create');
 });
 
-Route::get('/cars/{id}', function ($id) {
-    return view('cars.show', ['id' => $id]);
-})->whereNumber('id')->name('cars.show');
+Route::get('/admin/logout',LogoutController::class)->name('admin.logout');
+
+Route::view('/booking','booking')->middleware('hours:9,18')->name('booking');

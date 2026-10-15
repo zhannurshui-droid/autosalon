@@ -1,16 +1,10 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ config('app.name') }}</title>
-</head>
-<body>
-    <nav>
-        <a href="{{ route( 'home' ) }}">Главная</a> |
-        <a href="{{ route( 'about' ) }}">О проекте</a> |
-        <a href="{{ route( 'contacts' ) }}">Контакты</a> |
-    </nav>
-    <h1>{{ config('app.name') }}</h1>
-    <p>Сегодня: {{ now()->format('d.m.Y') }}</p>
-</body>
-</html>
+@extends('layouts.app')
+@section('title', 'Главная')
+
+@section('content')
+    <h1>Добро пожаловать в «{{ config('app.name') }}»</h1>
+    <div class="card">
+        <p>Сегодня {{ now()->format('d.m.Y') }}. Подберите автомобиль своей мечты.</p>
+        <p><a href="{{ route('cars.index') }}">Смотреть каталог →</a></p>
+    </div>
+@endsection

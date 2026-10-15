@@ -1,0 +1,22 @@
+* { box-sizing: border-box; }
+body { margin: 0; font-family: Arial, sans-serif; background: #f4f6f8; color: #222; }
+.container { max-width: 960px; margin: 0 auto; padding: 0 16px; }
+.header { background: #1f3a5f; color: #fff; padding: 14px 0; }
+.header .container { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
+.brand { font-size: 22px; font-weight: bold; color: #fff; text-decoration: none; }
+.menu { display: flex; flex-wrap: wrap; gap: 6px; }
+.menu a { color: #dbe6f5; text-decoration: none; padding: 6px 12px; border-radius: 6px; }
+.menu a:hover { background: rgba(255,255,255,.15); }
+.menu a.active { background: #fff; color: #1f3a5f; font-weight: bold; }
+main { padding: 24px 16px; min-height: 60vh; }
+h1 { margin-top: 0; }
+.card { background: #fff; border: 1px solid #dde3ea; border-radius: 8px; padding: 16px; margin-bottom: 12px; }
+.badge { display: inline-block; background: #e8a317; color: #fff; font-size: 12px; padding: 2px 8px; border-radius: 10px; margin-left: 6px; }
+.footer { background: #e9edf2; text-align: center; padding: 16px; color: #555; }
+table { border-collapse: collapse; width: 100%; background: #fff; }
+th, td { border: 1px solid #dde3ea; padding: 8px 10px; text-align: left; }
+th { background: #eef2f7; }
+.error-box { text-align: center; padding: 40px 0; }
+.error-box .code { font-size: 96px; font-weight: bold; margin: 0; }
+.header-admin { background: #7a1f2b; }
+.header-admin .menu a.active { color: #7a1f2b; }

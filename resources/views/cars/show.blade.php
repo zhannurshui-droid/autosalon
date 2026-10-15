@@ -1,11 +1,12 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Автомобиль N{{ $id }}</title>
-</head>
-<body>
-    <h1>Автомобиль N{{ $id }}</h1>
-    <p><a href="{{ route('home') }}"><- На главную</a></p>
-</body>
-</html>
+@extends('layouts.app')
+@section('title', $car['title'])
+
+@section('content')
+    <h1>{{ $car['title'] }}</h1>
+    <div class="card">
+        <p>Номер в каталоге: {{ $id }}</p>
+        <p>Цена: {{ $car['price'] }} $</p>
+        <p>Год выпуска: {{ $car['year'] }}</p>
+    </div>
+    <p><a href="{{ route('cars.index') }}">← Назад к списку</a></p>
+@endsection

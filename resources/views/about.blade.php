@@ -1,12 +1,10 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>О Проекте</title>
-</head>
-<body>
+@extends('layouts.app')
+@section('title', 'О проекте')
+
+@section('content')
     <h1>О проекте</h1>
-    <p>Автор: {{ $fio }}, группа: {{ $group }}</p>
-    <p>{{ $info }}</p>
-</body>
-</html>
+    <div class="card">
+        <p>Автор: {{ $fio }}, группа {{ $group }}</p>
+        <p>{{ $info }}</p>
+    </div>
+@endsection

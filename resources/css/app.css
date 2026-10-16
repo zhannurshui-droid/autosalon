@@ -32,3 +32,13 @@ th { background: #eef2f7; }
 
 .to-top { position: fixed; right: 20px; bottom: 20px; width: 44px; height: 44px; border: 0; border-radius: 50%; background: #1f3a5f; color: #fff; font-size: 20px; cursor: pointer; opacity: 0; pointer-events: none; transition: opacity .2s; }
 .to-top.visible { opacity: 1; pointer-events: auto; }
+
+.pagination { display: flex; gap: 6px; list-style: none; padding: 0; margin: 20px 0; }
+.pagination li a,
+.pagination li span { display: block; padding: 6px 12px; border: 1px solid #ccc; border-radius: 4px; text-decoration: none; }
+.pagination li.active span { background: #2563eb; color: #fff; border-color: #2563eb; }
+.pagination li.disabled span { color: #999; }
+.pagination { display: flex; gap: 6px; list-style: none; padding: 0; margin: 20px 0; }
+.pagination .page-link { display: block; padding: 6px 12px; border: 1px solid #ccc; border-radius: 4px; text-decoration: none; }
+.pagination .active .page-link { background: #2563eb; color: #fff; border-color: #2563eb; }
+.pagination .disabled .page-link { color: #999; }

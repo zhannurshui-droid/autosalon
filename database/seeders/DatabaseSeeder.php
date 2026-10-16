@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Brand;
+use App\Models\Car;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -9,8 +11,10 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            BrandSeeder::class,   // сначала марки
-            CarSeeder::class,     // потом автомобили, которые на них ссылаются
+            BrandSeeder::class,
+            CarSeeder::class,
         ]);
+
+        Car::factory(40)->recycle(Brand::all())->create();
     }
 }

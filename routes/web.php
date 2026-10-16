@@ -6,6 +6,7 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\CarController as AdminCarController;
 use App\Http\Controllers\Admin\LogoutController;
+use App\Http\Controller\BrandController;
 
 Route::get('/',[PageController::class, 'home'])->name('home');
 Route::get('/about',[PageController::class, 'about'])->name('about');
@@ -15,9 +16,13 @@ Route::get('/hello/{name}',[PageController::class, 'hello']);
 
 Route::get('/cars',[CarController::class, 'index'])->name('cars.index');
 
-Route::get('/cars/{id}',[CarController::class,'show'])
-  ->whereNumber('id')
+Route::get('/cars/{car}',[CarController::class,'show'])
+  ->whereNumber('car')
   ->name('cars.show');
+
+Route::get('/brands/{brand}', [BrandController::class, 'show'])
+   ->whereNumber('brand')
+   ->name('brands.show');
 
 Route::redirect('/main','/');
 

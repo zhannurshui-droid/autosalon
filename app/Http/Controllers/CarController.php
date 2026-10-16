@@ -2,31 +2,39 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\DB;
+use App\Models\Car;
+use App\Models\Brand;
+use Illuminate\Http\Request;
 
 class CarController extends Controller
 {
-    public function index()
+    public function index(Request $request)
+{
+    $sort = in_array($request->sort, ['title', 'year', 'price', 'latest'])
+        ? $request->sort
+        : 'title';
+
+    $cars = Car::with('brand')
+        ->search($request->q)
+        ->when($request->brand, fn ($q, $b) => $q->where('brand_id', $b))
+        ->when($sort === 'latest',
+            fn ($q) => $q->latest(),
+            fn ($q) => $q->orderBy($sort))
+        ->paginate(9)
+        ->withQueryString();
+
+    $brands = Brand::withCount('cars')->orderBy('name')->get();
+
+    return view('cars.index', compact('cars', 'brands'));
+}
+
+    public function show(Car $car)
     {
-        $cars = DB::table('cars')
-            ->join('brands', 'cars.brand_id', '=', 'brands.id')
-            ->select('cars.*', 'brands.name as brand')
-            ->orderBy('cars.title')
+        $more = $car->brand->cars()
+            ->where('id', '!=', $car->id)
+            ->take(3)
             ->get();
 
-        return view('cars.index', compact('cars'));
-    }
-
-    public function show(int $id)
-    {
-        $car = DB::table('cars')
-            ->join('brands', 'cars.brand_id', '=', 'brands.id')
-            ->select('cars.*', 'brands.name as brand')
-            ->where('cars.id', $id)
-            ->first();
-
-        abort_if(! $car, 404);
-
-        return view('cars.show', compact('car'));
+        return view('cars.show', compact('car', 'more'));
     }
 }

@@ -4,18 +4,19 @@
 @section('content')
     <h1>Все автомобили</h1>
     <table>
-        <tr><th>№</th><th>Название</th><th>Цена, $</th><th>Год</th></tr>
-        @foreach ($items as $id => $item)
+        <tr><th>№</th><th>Название</th><th>Марка</th><th>Цена, $</th><th>Год</th></tr>
+        @foreach ($cars as $car)
             <tr>
-                <td>{{ $id }}</td>
+                <td>{{ $car->id }}</td>
                 <td>
-                    {{ $item['title'] }}
+                    {{ $car->title }}
                     @if ($loop->first)
-                        <span class="badge">новая</span>
+                        <x-badge>новая</x-badge>
                     @endif
                 </td>
-                <td>{{ $item['price'] }}</td>
-                <td>{{ $item['year'] }}</td>
+                <td>{{ $car->brand }}</td>
+                <td>{{ number_format($car->price, 0, ',', ' ') }}</td>
+                <td>{{ $car->year }}</td>
             </tr>
         @endforeach
     </table>

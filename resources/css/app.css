@@ -1,9 +1,34 @@
-@import 'tailwindcss';
+* { box-sizing: border-box; }
+body { margin: 0; font-family: Arial, sans-serif; background: #f4f6f8; color: #222; }
+.container { max-width: 960px; margin: 0 auto; padding: 0 16px; }
+.header { background: #1f3a5f; color: #fff; padding: 14px 0; }
+.header .container { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
+.brand { font-size: 22px; font-weight: bold; color: #fff; text-decoration: none; }
+.menu { display: flex; flex-wrap: wrap; gap: 6px; }
+.menu a { color: #dbe6f5; text-decoration: none; padding: 6px 12px; border-radius: 6px; }
+.menu a:hover { background: rgba(255,255,255,.15); }
+.menu a.active { background: #fff; color: #1f3a5f; font-weight: bold; }
+main { padding: 24px 16px; min-height: 60vh; }
+h1 { margin-top: 0; }
+.card { background: #fff; border: 1px solid #dde3ea; border-radius: 8px; padding: 16px; margin-bottom: 12px; }
+.card h3 { margin: 0 0 6px; }
+.card-wide { border-left: 4px solid #1f3a5f; padding: 20px; }
+.badge { display: inline-block; background: #e8a317; color: #fff; font-size: 12px; padding: 2px 8px; border-radius: 10px; margin-left: 6px; }
+.footer { background: #e9edf2; text-align: center; padding: 16px; color: #555; }
+table { border-collapse: collapse; width: 100%; background: #fff; }
+th, td { border: 1px solid #dde3ea; padding: 8px 10px; text-align: left; }
+th { background: #eef2f7; }
+.error-box { text-align: center; padding: 40px 0; }
+.error-box .code { font-size: 96px; font-weight: bold; margin: 0; }
+.header-admin { background: #7a1f2b; }
+.header-admin .menu a.active { color: #7a1f2b; }
 
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
+.alert { padding: 12px 16px; border-radius: 6px; margin-bottom: 12px; border: 1px solid; }
+.alert-icon { font-weight: bold; margin-right: 8px; }
+.alert-info    { background: #e7f1fb; border-color: #9cc3ea; color: #1b4f82; }
+.alert-success { background: #e6f5ea; border-color: #8fd0a0; color: #1d6b34; }
+.alert-error   { background: #fbe9e9; border-color: #e59a9a; color: #8c1d1d; }
+.alert-warning { background: #fff5e0; border-color: #f0c56b; color: #8a5a00; }
 
-@theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
-}
+.to-top { position: fixed; right: 20px; bottom: 20px; width: 44px; height: 44px; border: 0; border-radius: 50%; background: #1f3a5f; color: #fff; font-size: 20px; cursor: pointer; opacity: 0; pointer-events: none; transition: opacity .2s; }
+.to-top.visible { opacity: 1; pointer-events: auto; }

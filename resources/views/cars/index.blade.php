@@ -4,16 +4,13 @@
 @section('content')
     <h1>Каталог автомобилей</h1>
 
-    @forelse ($items as $id => $item)
-        <div class="card">
-            {{ $loop->iteration }}.
-            <a href="{{ route('cars.show', $id) }}">{{ $item['title'] }}</a>
-
-            @if ($item['price'] > 50000)
-                <span class="badge">Премиум</span>
-            @endif
-        </div>
+    @forelse ($cars as $car)
+        <x-card :title="$loop->iteration . '. ' . $car->title"
+                :url="route('cars.show', $car->id)"
+                :badge="$car->price > 50000 ? 'Премиум' : null">
+            {{ $car->brand }}, {{ $car->year }} год, {{ number_format($car->price, 0, ',', ' ') }} $
+        </x-card>
     @empty
-        <div class="card">Каталог пока пуст.</div>
+        <x-alert type="info">Каталог пока пуст.</x-alert>
     @endforelse
 @endsection

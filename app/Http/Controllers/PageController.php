@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
 
@@ -8,7 +9,9 @@ class PageController extends Controller
 {
     public function home()
     {
-        return view('home');
+        $cars = DB::table('cars')->orderBy('id')->limit(3)->get();
+
+        return view('home',compact('cars'));
     }
 
     public function about()

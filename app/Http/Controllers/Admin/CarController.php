@@ -4,33 +4,65 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Car;
+use App\Models\Brand;
+use App\Http\Requests\StoreCarRequest;
+use App\Http\Requests\UpdateCarRequest;
 
 use Illuminate\Http\Request;
 
 class CarController extends Controller
 {
-    public function index(Request $request)
-{
-    $sort = in_array($request->sort, ['title', 'year', 'price', 'latest'])
-        ? $request->sort
-        : 'title';
+    public function index()
+    {
+        $cars = Car::with('brand')->latest()->paginate(15);
 
-    $cars = Car::with('brand')
-        ->search($request->q)
-        ->when($request->brand, fn ($q, $b) => $q->where('brand_id', $b))
-        ->when($sort === 'latest',
-            fn ($q) => $q->latest(),
-            fn ($q) => $q->orderBy($sort))
-        ->paginate(9)
-        ->withQueryString();
-
-    $brands = Brand::withCount('cars')->orderBy('name')->get();
-
-    return view('cars.index', compact('cars', 'brands'));
-}
+        return view('admin.cars.index', compact('cars'));
+    }
 
     public function create()
     {
-        return view('admin.cars-create');
+        $brands = Brand::orderBy('name')->get();
+
+        return view('admin.cars.create', compact('brands'));
+    }
+
+    public function store(StoreCarRequest $request)
+{
+    Car::create($request->validated());
+
+    return redirect()->route('admin.cars.index')->with('success', 'Автомобиль добавлен');
+}
+
+    public function edit(Car $car)
+    {
+        $brands = Brand::orderBy('name')->get();
+
+        return view('admin.cars.edit', compact('car', 'brands'));
+    }
+
+    public function update(UpdateCarRequest $request, Car $car)
+{
+    $car->update($request->validated());
+
+    return redirect()->route('admin.cars.index')->with('success', 'Изменения сохранены');
+}
+
+    public function destroy(Car $car)
+    {
+        $car->delete();
+
+        return back()->with('success', 'Автомобиль удалён');
+    }
+
+    private function rules(): array
+    {
+        return [
+            'brand_id'    => ['required', 'integer', 'exists:brands,id'],
+            'title'       => ['required', 'string', 'max:120'],
+            'year'        => ['required', 'integer'],
+            'price'       => ['required', 'numeric', 'min:0'],
+            'mileage'     => ['nullable', 'integer', 'min:0'],
+            'description' => ['nullable', 'string'],
+        ];
     }
 }

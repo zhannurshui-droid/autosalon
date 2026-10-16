@@ -13,15 +13,22 @@
             <nav class="menu">
                 <a href="{{ route('home') }}">На сайт</a>
                 <a href="{{ route('admin.dashboard') }}" @class(['active' => request()->routeIs('admin.dashboard')])>Панель</a>
-                <a href="{{ route('admin.cars') }}" @class(['active' => request()->routeIs('admin.cars*')])>Автомобили</a>
+                <a href="{{ route('admin.cars.index') }}" @class(['active' => request()->routeIs('admin.cars.*')])>Автомобили</a>
                 <a href="{{ route('admin.logout') }}">Выход</a>
             </nav>
         </div>
     </header>
 
     <main class="container">
-        @yield('content')
-    </main>
+    @if (session('success'))
+        <x-alert type="success">{{ session('success') }}</x-alert>
+    @endif
+    @if (session('error'))
+        <x-alert type="error">{{ session('error') }}</x-alert>
+    @endif
+
+    @yield('content')
+</main>
 
     @include('partials.footer')
 </body>

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Brands;
 
-class BrandCotroller extends Controller
+class BrandController extends Controller
 {
     public function show(Brand $brand)
     {

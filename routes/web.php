@@ -6,7 +6,8 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\CarController as AdminCarController;
 use App\Http\Controllers\Admin\LogoutController;
-use App\Http\Controller\BrandController;
+use App\Http\Controllers\BrandController;
+use App\Http\Controllers\Admin\BrandController as AdminBrandController;
 
 Route::get('/',[PageController::class, 'home'])->name('home');
 Route::get('/about',[PageController::class, 'about'])->name('about');
@@ -28,8 +29,8 @@ Route::redirect('/main','/');
 
 Route::prefix('admin')->name('admin.')->middleware('admin.key')->group(function() {
     Route::get('/',DashboardController::class)->name('dashboard');
-    Route::get('/cars',[AdminCarController::class, 'index'])->name('cars');
-    Route::get('/cars/create',[AdminCarController::class, 'create'])->name('cars.create');
+    Route::resource('cars', AdminCarController::class)->except('show');
+    Route::resource('brands', AdminBrandController::class)->except('show');
 });
 
 Route::get('/admin/logout',LogoutController::class)->name('admin.logout');

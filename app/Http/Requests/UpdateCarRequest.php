@@ -4,18 +4,21 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use App\Models\User;
 
 class UpdateCarRequest extends FormRequest
 {
     public function authorize(): bool
-    {
-        return true;
-    }
+{
+    return $this->user()->can('update', $this->route('car'));
+}
 
     protected function prepareForValidation(): void
     {
         $this->merge(['in_stock' => $this->boolean('in_stock')]);
     }
+    
+
 
     public function rules(): array
     {
@@ -57,4 +60,5 @@ class UpdateCarRequest extends FormRequest
             'in_stock'    => 'в наличии',
         ];
     }
+    
 }

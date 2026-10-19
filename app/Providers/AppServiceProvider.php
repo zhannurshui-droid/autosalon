@@ -6,6 +6,8 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\DB;
+use App\Models\User;
+use Illuminate\Support\Facades\Gate;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,5 +27,6 @@ class AppServiceProvider extends ServiceProvider
         Paginator::defaultView('pagination::bootstrap-4');
         Model::preventLazyLoading(! app()->isProduction());
         DB::enableQueryLog();
+        Gate::define('admin-panel', fn (User $user) => in_array($user->role, ['admin', 'editor']));
     }
 }

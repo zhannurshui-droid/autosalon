@@ -8,6 +8,7 @@
 
     <table>
         <tr>
+            <th>Автор записи</th>
             <th>№</th>
             <th>Название</th>
             <th>Марка</th>
@@ -24,17 +25,20 @@
                 <td>{{ number_format($car->price, 0, ',', ' ') }}</td>
                 <td>{{ $car->year }}</td>
                 <td>{{ $car->created_at->format('d.m.Y') }}</td>
+                <td>{{ $car->user?->name ?? '—' }}</td>
                 <td>
-                    <a href="{{ route('admin.cars.edit', $car) }}">Изменить</a>
-
-                    <form method="POST" action="{{ route('admin.cars.destroy', $car) }}"
-                          style="display:inline"
-                          onsubmit="return confirm('Удалить запись?')">
-                        @csrf
-                        @method('DELETE')
-                        <button>Удалить</button>
-                    </form>
-                </td>
+    @can('update', $car)
+        <a href="{{ route('admin.cars.edit', $car) }}">Изменить</a>
+    @endcan
+    @can('delete', $car)
+        <form method="POST" action="{{ route('admin.cars.destroy', $car) }}"
+              style="display:inline" onsubmit="return confirm('Удалить запись?')">
+            @csrf
+            @method('DELETE')
+            <button>Удалить</button>
+        </form>
+    @endcan
+</td>
             </tr>
         @endforeach
     </table>

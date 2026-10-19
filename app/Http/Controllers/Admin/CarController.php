@@ -7,38 +7,52 @@ use App\Models\Car;
 use App\Models\Brand;
 use App\Http\Requests\StoreCarRequest;
 use App\Http\Requests\UpdateCarRequest;
+use Illuminate\Support\Facades\Gate;
 
 use Illuminate\Http\Request;
 
 class CarController extends Controller
 {
     public function index()
-    {
-        $cars = Car::with('brand')->latest()->paginate(15);
-
-        return view('admin.cars.index', compact('cars'));
-    }
-
-    public function create()
-    {
-        $brands = Brand::orderBy('name')->get();
-
-        return view('admin.cars.create', compact('brands'));
-    }
-
-    public function store(StoreCarRequest $request)
 {
-    Car::create($request->validated());
+    $cars = Car::with(['brand', 'user'])->latest()->paginate(15);
+
+    return view('admin.cars.index', compact('cars'));
+}
+
+public function create()
+{
+    Gate::authorize('create', Car::class);
+
+    $brands = Brand::orderBy('name')->get();
+
+    return view('admin.cars.create', compact('brands'));
+}
+
+public function store(StoreCarRequest $request)
+{
+    Car::create($request->validated() + ['user_id' => $request->user()->id]);
 
     return redirect()->route('admin.cars.index')->with('success', 'Автомобиль добавлен');
 }
 
-    public function edit(Car $car)
-    {
-        $brands = Brand::orderBy('name')->get();
+public function edit(Car $car)
+{
+    Gate::authorize('update', $car);
 
-        return view('admin.cars.edit', compact('car', 'brands'));
-    }
+    $brands = Brand::orderBy('name')->get();
+
+    return view('admin.cars.edit', compact('car', 'brands'));
+}
+
+public function destroy(Car $car)
+{
+    Gate::authorize('delete', $car);
+
+    $car->delete();
+
+    return back()->with('success', 'Автомобиль удалён');
+}
 
     public function update(UpdateCarRequest $request, Car $car)
 {
@@ -46,13 +60,6 @@ class CarController extends Controller
 
     return redirect()->route('admin.cars.index')->with('success', 'Изменения сохранены');
 }
-
-    public function destroy(Car $car)
-    {
-        $car->delete();
-
-        return back()->with('success', 'Автомобиль удалён');
-    }
 
     private function rules(): array
     {

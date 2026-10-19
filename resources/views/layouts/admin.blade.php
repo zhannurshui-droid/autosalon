@@ -14,7 +14,11 @@
                 <a href="{{ route('home') }}">На сайт</a>
                 <a href="{{ route('admin.dashboard') }}" @class(['active' => request()->routeIs('admin.dashboard')])>Панель</a>
                 <a href="{{ route('admin.cars.index') }}" @class(['active' => request()->routeIs('admin.cars.*')])>Автомобили</a>
-                <a href="{{ route('admin.logout') }}">Выход</a>
+                <span>{{ auth()->user()->name }} ({{ auth()->user()->role }})</span>
+<form method="POST" action="{{ route('logout') }}" style="display:inline">
+    @csrf
+    <button>Выйти</button>
+</form>
             </nav>
         </div>
     </header>

@@ -5,4 +5,19 @@
     <a href="{{ route('contacts') }}" @class(['active'=>request()->routeIs('contacts')])>Контакты</a>
     <a href="{{ route('rules') }}" @class(['active'=>request()->routeIs('rules')])>Правила</a>
     <a href="{{ route('booking') }}" @class(['active'=>request()->routeIs('booking')])>Тест-Драйв</a>
+    @guest
+    <a href="{{ route('login') }}">Вход</a>
+    <a href="{{ route('register') }}">Регистрация</a>
+@endguest
+
+@auth
+    <span>{{ auth()->user()->name }}</span>
+    @can('admin-panel')
+        <a href="{{ route('admin.dashboard') }}">Админ-панель</a>
+    @endcan
+    <form method="POST" action="{{ route('logout') }}" style="display:inline">
+        @csrf
+        <button>Выйти</button>
+    </form>
+@endauth
 </nav>

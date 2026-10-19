@@ -67,8 +67,6 @@ return [
 
     'timezone' => 'Asia/Almaty',
 
-    'admin_key' => env('ADMIN_KEY'),
-
     /*
     |--------------------------------------------------------------------------
     | Application Locale Configuration

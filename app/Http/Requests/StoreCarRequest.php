@@ -4,13 +4,14 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use App\Models\User;
 
 class StoreCarRequest extends FormRequest
 {
     public function authorize(): bool
-    {
-        return true;
-    }
+{
+    return $this->user()->can('create', Car::class);
+}
 
     protected function prepareForValidation(): void
     {

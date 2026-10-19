@@ -55,3 +55,11 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'can:admin-panel'])-
 Route::get('/admin/logout',LogoutController::class)->name('admin.logout');
 
 Route::view('/booking','booking')->middleware('hours:9,18')->name('booking');
+
+Route::get('/cars/export', [CarController::class, 'export'])->name('cars.export');
+
+Route::get('/cars/pdf', [CarController::class, 'pdf'])->name('cars.pdf');
+
+Route::get('/cars/{car}/attachment', [CarController::class, 'attachment'])
+    ->middleware('auth')
+    ->name('cars.attachment');

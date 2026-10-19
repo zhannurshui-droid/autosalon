@@ -2,7 +2,7 @@
     <x-alert type="error">Исправьте ошибки в форме ({{ $errors->count() }})</x-alert>
 @endif
 
-<form method="POST" action="{{ $action }}">
+<form method="POST" action="{{ $action }}" enctype="multipart/form-data">
     @csrf
     @isset($car)
         @method('PUT')
@@ -50,11 +50,25 @@
     </label>
     @error('description') <div class="error">{{ $message }}</div> @enderror
 
-    <label>
-        <input type="checkbox" name="in_stock" value="1"
-               @checked(old('in_stock', $car->in_stock ?? true))>
-        В наличии
-    </label>
+    <label>Фото
+    <input type="file" name="cover" accept="image/*"
+           @class(['invalid' => $errors->has('cover')])>
+@isset($car)
+    <div class="mb-3">
+    <label>Документ (PDF, до 5 МБ)</label>
+    <input type="file" name="attachment" accept="application/pdf">
+    @error('attachment') <div class="text-danger">{{ $message }}</div> @enderror
+</div>
+    @if ($car->cover)
+        <label>
+            <input type="checkbox" name="remove_cover" value="1">
+            Удалить картинку
+        </label>
+    @endif
+@endisset
+
+<input type="file" name="cover" accept="image/*">
+@error('cover') <div class="text-danger">{{ $message }}</div> @enderror
 
     <button>Сохранить</button>
 </form>

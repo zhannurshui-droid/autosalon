@@ -7,13 +7,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Car extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'brand_id','title','year','price','mileage','in_stock','description',
+        'brand_id','title','year','price','mileage','in_stock','description', 'cover', 'attachment'
     ];
 
     protected function casts():array
@@ -46,5 +47,12 @@ class Car extends Model
     public function user(): BelongsTo
 {
     return $this->belongsTo(User::class);
+}
+
+    protected function coverUrl(): Attribute
+{
+    return Attribute::get(fn () => $this->cover
+        ? asset('storage/' . $this->cover)
+        : asset('images/no-cover.png'));
 }
 }

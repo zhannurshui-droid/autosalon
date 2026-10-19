@@ -32,6 +32,10 @@ class UpdateCarRequest extends FormRequest
             'mileage'     => ['nullable', 'integer', 'min:0', 'max:2000000'],
             'description' => ['nullable', 'string', 'max:2000'],
             'in_stock'    => ['boolean'],
+            'cover' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
+            'cover'        => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
+            'remove_cover' => ['nullable', 'boolean'],
+            'attachment' => ['nullable', 'mimes:pdf', 'max:5120'],
         ];
     }
 
@@ -45,6 +49,9 @@ class UpdateCarRequest extends FormRequest
             'year.between'    => 'Год должен быть от :min до :max.',
             'price.between'   => 'Цена должна быть от :min до :max.',
             'max'             => 'Слишком длинное значение в поле «:attribute».',
+            'cover.image' => 'Файл должен быть изображением.',
+            'cover.mimes' => 'Допустимые форматы: jpg, png, webp.',
+            'cover.max'   => 'Размер файла не больше 2 МБ.',
         ];
     }
 
@@ -58,6 +65,7 @@ class UpdateCarRequest extends FormRequest
             'mileage'     => 'пробег',
             'description' => 'описание',
             'in_stock'    => 'в наличии',
+            'cover' => 'фото'
         ];
     }
     

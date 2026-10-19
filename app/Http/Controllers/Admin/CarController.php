@@ -31,7 +31,13 @@ public function create()
 
 public function store(StoreCarRequest $request)
 {
-    Car::create($request->validated() + ['user_id' => $request->user()->id]);
+    $data = $request->safe()->except('cover') + ['user_id' => $request->user()->id];
+
+    if ($request->hasFile('cover')) {
+        $data['cover'] = $request->file('cover')->store('covers', 'public');
+    }
+
+    Car::create($data);
 
     return redirect()->route('admin.cars.index')->with('success', 'Автомобиль добавлен');
 }

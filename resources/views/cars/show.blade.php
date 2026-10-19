@@ -15,6 +15,12 @@
         @if ($car->description)
             <p>{{ $car->description }}</p>
         @endif
+        <img src="{{ $car->cover_url }}" alt="{{ $car->title }}" class="car-photo">
     </div>
     <p><a href="{{ route('cars.index') }}">← Назад к списку</a></p>
 @endsection
+@auth
+    @if ($car->attachment)
+        <a href="{{ route('cars.attachment', $car) }}" class="btn">Скачать документ</a>
+    @endif
+@endauth

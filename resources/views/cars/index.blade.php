@@ -24,6 +24,8 @@
     <button type="submit">Найти</button>
     <a href="{{ route('cars.index') }}">Сбросить</a>
 </form>
+    <a href="{{ route('cars.pdf', request()->query()) }}" class="btn">Скачать PDF</a>
+    <a href="{{ route('cars.export', request()->query()) }}" class="btn">Скачать Excel</a>
 
     <ul class="brand-menu">
         @foreach ($brands as $b)
@@ -34,12 +36,14 @@
     </ul>
 
     @forelse ($cars as $car)
-        <x-card :title="$loop->iteration . '. ' . $car->title"
-                :url="route('cars.show', $car->id)"
-                :badge="$car->price > 50000 ? 'Премиум' : null">
-            {{ $car->brand->name }}, {{ $car->year }} год, {{ number_format($car->price, 0, ',', ' ') }} $
-        </x-card>
-    @empty
+    <x-card :title="$loop->iteration . '. ' . $car->title"
+            :url="route('cars.show', $car->id)"
+            :badge="$car->price > 50000 ? 'Премиум' : null"
+            :image="$car->cover_url"
+            :alt="$car->title">
+        {{ $car->brand->name }}, {{ $car->year }} год, {{ number_format($car->price, 0, ',', ' ') }} $
+    </x-card>
+@empty
         <x-alert type="warning">По запросу «{{ request('q') }}» ничего не найдено</x-alert>
     @endforelse
     {{ $cars->links() }}

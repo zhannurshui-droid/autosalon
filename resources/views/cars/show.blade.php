@@ -5,11 +5,7 @@
     <h1>{{ $car->title }}</h1>
     <div class="card">
         <p>Номер в каталоге: {{ $car->id }}</p>
-<<<<<<< HEAD
-        <p>Марка: {{ $car->brand }}</p>
-=======
         <p>Марка: <a href="{{ route('brands.show', $car->brand) }}">{{ $car->brand->name }}</a></p>
->>>>>>> 935db85 (ЛР9: сервисы, контейнер, почта, уведомления)
         <p>Цена: {{ number_format($car->price, 0, ',', ' ') }} $</p>
         <p>Год выпуска: {{ $car->year }}</p>
         @if ($car->mileage)
@@ -20,16 +16,6 @@
             <p>{{ $car->description }}</p>
         @endif
         <img src="{{ $car->cover_url }}" alt="{{ $car->title }}" class="car-photo">
-<<<<<<< HEAD
-    </div>
-    <p><a href="{{ route('cars.index') }}">← Назад к списку</a></p>
-@endsection
-@auth
-    @if ($car->attachment)
-        <a href="{{ route('cars.attachment', $car) }}" class="btn">Скачать документ</a>
-    @endif
-@endauth
-=======
 
         @auth
             @if ($car->attachment)
@@ -82,4 +68,3 @@
 
     <p><a href="{{ route('cars.index') }}">← Назад к списку</a></p>
 @endsection
->>>>>>> 935db85 (ЛР9: сервисы, контейнер, почта, уведомления)

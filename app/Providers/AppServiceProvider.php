@@ -8,12 +8,9 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use Illuminate\Support\Facades\Gate;
-<<<<<<< HEAD
-=======
 use App\Contracts\SmsSender;
 use App\Services\Sms\LogSmsSender;
 use App\Services\Sms\NullSmsSender;
->>>>>>> 935db85 (ЛР9: сервисы, контейнер, почта, уведомления)
 
 class AppServiceProvider extends ServiceProvider
 {

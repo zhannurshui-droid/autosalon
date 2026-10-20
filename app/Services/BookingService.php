@@ -1,0 +1,55 @@
+<?php
+
+namespace App\Services;
+
+use App\Models\Booking;
+use App\Models\Car;
+use App\Models\User;
+use Illuminate\Validation\ValidationException;
+use App\Contracts\SmsSender;
+
+class BookingService
+{
+    public const MAX_ACTIVE = 3;
+
+    public function create(User $user, Car $car, array $data): Booking
+    {
+        if (! $car->in_stock) {
+            throw ValidationException::withMessages([
+                'booking' => 'Этот автомобиль сейчас не в наличии.',
+            ]);
+        }
+
+        $active = $user->bookings()->where('status', 'new');
+
+        if ((clone $active)->where('car_id', $car->id)->exists()) {
+            throw ValidationException::withMessages([
+                'booking' => 'Вы уже записаны на тест-драйв этого автомобиля.',
+            ]);
+        }
+
+        if ((clone $active)->count() >= self::MAX_ACTIVE) {
+            throw ValidationException::withMessages([
+                'booking' => 'У вас уже ' . self::MAX_ACTIVE . ' активные заявки. Дождитесь их обработки.',
+            ]);
+        }
+
+        $booking = Booking::create([
+    'user_id' => $user->id,
+    'car_id'  => $car->id,
+    'phone'   => $data['phone'],
+    'comment' => $data['comment'] ?? null,
+]);
+
+$this->sms->send(
+    $booking->phone,
+    "Заявка №{$booking->id} на тест-драйв «{$car->title}» принята."
+);
+
+return $booking;
+    }
+
+    public function __construct(private SmsSender $sms)
+{
+}
+}

@@ -10,6 +10,13 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\Admin\BrandController as AdminBrandController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+<<<<<<< HEAD
+=======
+use App\Http\Controllers\BookingController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Admin\BookingController as AdminBookingController;
+use App\Http\Controllers\Admin\NotificationController;
+>>>>>>> 935db85 (ЛР9: сервисы, контейнер, почта, уведомления)
 
 Route::get('/',[PageController::class, 'home'])->name('home');
 Route::get('/about',[PageController::class, 'about'])->name('about');
@@ -50,6 +57,13 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'can:admin-panel'])-
     Route::get('/',DashboardController::class)->name('dashboard');
     Route::resource('cars', AdminCarController::class)->except('show');
     Route::resource('brands', AdminBrandController::class)->except('show');
+<<<<<<< HEAD
+=======
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications');
+    Route::post('/notifications/read', [NotificationController::class, 'readAll'])->name('notifications.read');
+    Route::get('/bookings', [AdminBookingController::class, 'index'])->name('bookings.index');
+    Route::patch('/bookings/{booking}', [AdminBookingController::class, 'update'])->name('bookings.update');
+>>>>>>> 935db85 (ЛР9: сервисы, контейнер, почта, уведомления)
 });
 
 Route::get('/admin/logout',LogoutController::class)->name('admin.logout');
@@ -62,4 +76,16 @@ Route::get('/cars/pdf', [CarController::class, 'pdf'])->name('cars.pdf');
 
 Route::get('/cars/{car}/attachment', [CarController::class, 'attachment'])
     ->middleware('auth')
+<<<<<<< HEAD
     ->name('cars.attachment');
+=======
+    ->name('cars.attachment');
+
+Route::post('/cars/{car}/bookings', [BookingController::class, 'store'])
+    ->middleware('auth')->whereNumber('car')->name('bookings.store');
+
+Route::get('/profile', [ProfileController::class, 'index'])
+    ->middleware('auth')->name('profile');
+
+Route::get('/mail-preview', fn () => new \App\Mail\BookingReceived(\App\Models\Booking::latest()->first()));
+>>>>>>> 935db85 (ЛР9: сервисы, контейнер, почта, уведомления)

@@ -55,4 +55,11 @@ class Car extends Model
         ? asset('storage/' . $this->cover)
         : asset('images/no-cover.png'));
 }
+<<<<<<< HEAD
+=======
+    public function bookings(): HasMany
+{
+    return $this->hasMany(Booking::class);
+}
+>>>>>>> 935db85 (ЛР9: сервисы, контейнер, почта, уведомления)
 }

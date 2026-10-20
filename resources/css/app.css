@@ -61,4 +61,9 @@ form input[type=checkbox] { display: inline-block; min-width: 0; }
     height: 400px;
     object-fit: cover;
     border-radius: 8px;
+<<<<<<< HEAD
 }
+=======
+}
+.unread { font-weight: bold; background: #fef9c3; padding: 6px; margin: 4px 0; }
+>>>>>>> 935db85 (ЛР9: сервисы, контейнер, почта, уведомления)

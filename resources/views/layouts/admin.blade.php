@@ -14,6 +14,11 @@
                 <a href="{{ route('home') }}">На сайт</a>
                 <a href="{{ route('admin.dashboard') }}" @class(['active' => request()->routeIs('admin.dashboard')])>Панель</a>
                 <a href="{{ route('admin.cars.index') }}" @class(['active' => request()->routeIs('admin.cars.*')])>Автомобили</a>
+<<<<<<< HEAD
+=======
+                <a href="{{ route('admin.bookings.index') }}" @class(['active' => request()->routeIs('admin.bookings.*')])>Заявки</a>
+                <a href="{{ route('admin.notifications') }}">🔔 {{ auth()->user()->unreadNotifications()->count() }}</a>
+>>>>>>> 935db85 (ЛР9: сервисы, контейнер, почта, уведомления)
                 <span>{{ auth()->user()->name }} ({{ auth()->user()->role }})</span>
 <form method="POST" action="{{ route('logout') }}" style="display:inline">
     @csrf

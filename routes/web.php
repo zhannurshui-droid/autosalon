@@ -14,6 +14,7 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\BookingController as AdminBookingController;
 use App\Http\Controllers\Admin\NotificationController;
+use App\Http\Controllers\Admin\ExportController;
 
 Route::get('/',[PageController::class, 'home'])->name('home');
 Route::get('/about',[PageController::class, 'about'])->name('about');
@@ -58,6 +59,10 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'can:admin-panel'])-
     Route::post('/notifications/read', [NotificationController::class, 'readAll'])->name('notifications.read');
     Route::get('/bookings', [AdminBookingController::class, 'index'])->name('bookings.index');
     Route::patch('/bookings/{booking}', [AdminBookingController::class, 'update'])->name('bookings.update');
+    Route::post('/exports/catalog', [ExportController::class, 'catalog'])->name('exports.catalog');
+Route::get('/exports/{file}', [ExportController::class, 'download'])
+    ->where('file', '[A-Za-z0-9._-]+')
+    ->name('exports.download');
 });
 
 Route::get('/admin/logout',LogoutController::class)->name('admin.logout');

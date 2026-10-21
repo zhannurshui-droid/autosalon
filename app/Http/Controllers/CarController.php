@@ -94,18 +94,11 @@ class CarController extends Controller
     }
 
     public function destroy(Car $car)
-    {
-        if ($car->cover) {
-            Storage::disk('public')->delete($car->cover);
-        }
-        if ($car->attachment) {
-            Storage::delete($car->attachment);
-        }
+{
+    $car->delete();
 
-        $car->delete();
-
-        return redirect()->route('cars.index');
-    }
+    return redirect()->route('cars.index');
+}
 
     public function attachment(Car $car)
     {

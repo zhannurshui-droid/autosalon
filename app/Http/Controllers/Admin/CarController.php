@@ -53,11 +53,9 @@ public function edit(Car $car)
 
 public function destroy(Car $car)
 {
-    Gate::authorize('delete', $car);
-
     $car->delete();
 
-    return back()->with('success', 'Автомобиль удалён');
+    return redirect()->route('cars.index');
 }
 
     public function update(UpdateCarRequest $request, Car $car)

@@ -1,17 +1,23 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Car;
 
+use App\Models\Brand;
+use App\Models\Car;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class PageController extends Controller
 {
     public function home()
     {
-        $cars = Car::with('brand')->orderBy('id')->limit(3)->get();
+        $data = Cache::remember('home.stats', now()->addMinutes(10), fn () => [
+            'total'  => Car::count(),
+            'brands' => Brand::withCount('cars')->orderBy('name')->get(),
+            'cars'   => Car::with('brand')->latest()->take(6)->get(),
+        ]);
 
-        return view('home',compact('cars'));
+        return view('home', $data);
     }
 
     public function about()

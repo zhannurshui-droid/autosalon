@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Car;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
@@ -21,6 +22,11 @@ class CarObserver
         );
     }
 
+    public function saved(Car $car): void
+    {
+        $this->flushCache();
+    }
+
     public function deleting(Car $car): void
     {
         if ($car->cover) {
@@ -30,5 +36,15 @@ class CarObserver
         if ($car->attachment) {
             Storage::delete($car->attachment);
         }
+    }
+
+    public function deleted(Car $car): void
+    {
+        $this->flushCache();
+    }
+
+    private function flushCache(): void
+    {
+        Cache::deleteMultiple(['home.stats', 'brands.menu', 'admin.stats']);
     }
 }

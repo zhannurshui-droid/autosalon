@@ -28,7 +28,9 @@ class CarController extends Controller
             ->paginate(9)
             ->withQueryString();
 
-        $brands = Brand::withCount('cars')->orderBy('name')->get();
+        $brands = Cache::remember('brands.menu', now()->addHour(), fn () =>
+    Brand::withCount('cars')->orderBy('name')->get()
+);
 
         return view('cars.index', compact('cars', 'brands'));
     }

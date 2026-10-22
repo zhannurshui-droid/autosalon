@@ -45,6 +45,6 @@ class CarObserver
 
     private function flushCache(): void
     {
-        Cache::deleteMultiple(['home.stats', 'brands.menu', 'admin.stats']);
+        Cache::deleteMultiple(['home.stats', 'brands.menu', 'admin.stats', 'api.stats']);
     }
 }

@@ -23,7 +23,7 @@
 
     @forelse ($bookings as $booking)
         <x-card :title="$booking->car->title" :url="route('cars.show', $booking->car)">
-            {{ $booking->created_at->format('d.m.Y H:i') }} — {{ $statuses[$booking->status] ?? $booking->status }}
+            {{ $booking->created_at->translatedFormat('j F Y, H:i') }} — {{ $statuses[$booking->status] ?? $booking->status }}
         </x-card>
     @empty
         <x-alert type="info">{{ __('No bookings yet.') }}</x-alert>

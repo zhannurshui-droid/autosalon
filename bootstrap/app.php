@@ -16,16 +16,20 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // глобально: выполняется для web и api, сессия не нужна
+        $middleware->append(\App\Http\Middleware\AssignRequestId::class);
+
         $middleware->web(append: [
-    \App\Http\Middleware\LogVisit::class,
-    \App\Http\Middleware\SetLocale::class,
+            \App\Http\Middleware\LogVisit::class,
+            \App\Http\Middleware\SetLocale::class,
         ]);
+
         $middleware->alias([
-    'admin.key' => \App\Http\Middleware\CheckAdminKey::class,
-    'hours' => \App\Http\Middleware\WorkingHours::class,
-    'abilities' => CheckAbilities::class,
-    'ability' => CheckForAnyAbility::class,
-]);
+            'admin.key' => \App\Http\Middleware\CheckAdminKey::class,
+            'hours'     => \App\Http\Middleware\WorkingHours::class,
+            'abilities' => CheckAbilities::class,
+            'ability'   => CheckForAnyAbility::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         // ошибки в /api/* всегда отдаются как JSON, даже без заголовка Accept

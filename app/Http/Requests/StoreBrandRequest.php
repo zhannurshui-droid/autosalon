@@ -24,9 +24,4 @@ public function messages(): array
         'name.unique' => 'Такая марка уже есть.',
     ];
 }
-
-public function attributes(): array
-{
-    return ['name' => 'название', 'description' => 'описание'];
-}
 }

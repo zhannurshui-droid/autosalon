@@ -36,12 +36,4 @@ class UpdateBrandRequest extends FormRequest
             'description.max' => 'Описание не должно быть длиннее :max символов.',
         ];
     }
-
-    public function attributes(): array
-    {
-        return [
-            'name'        => 'название',
-            'description' => 'описание',
-        ];
-    }
 }

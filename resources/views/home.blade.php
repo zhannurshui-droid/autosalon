@@ -4,7 +4,7 @@
 @section('content')
     <h1>{{ __('Welcome to «:name»', ['name' => config('app.name')]) }}</h1>
     <p>{{ __('Today is :date. Choose the car of your dreams.', ['date' => now()->translatedFormat('j F Y')]) }}</p>
-    <p>{{ __('The catalog contains :count cars.', ['count' => $total]) }}</p>
+    <p>{{ trans_choice('messages.catalog_total', $total) }}</p>
 
     <ul class="brand-menu">
         @foreach ($brands as $b)

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Exceptions\BookingLimitException;
 use App\Models\Booking;
 use App\Models\Car;
 use App\Models\User;
@@ -15,7 +16,7 @@ class BookingService
     {
         if (! $car->in_stock) {
             throw ValidationException::withMessages([
-                'booking' => 'Этот автомобиль сейчас не в наличии.',
+                'booking' => __('This car is currently out of stock.'),
             ]);
         }
 
@@ -23,14 +24,12 @@ class BookingService
 
         if ((clone $active)->where('car_id', $car->id)->exists()) {
             throw ValidationException::withMessages([
-                'booking' => 'Вы уже записаны на тест-драйв этого автомобиля.',
+                'booking' => __('You are already booked for a test drive of this car.'),
             ]);
         }
 
         if ((clone $active)->count() >= self::MAX_ACTIVE) {
-            throw ValidationException::withMessages([
-                'booking' => 'У вас уже ' . self::MAX_ACTIVE . ' активные заявки. Дождитесь их обработки.',
-            ]);
+            throw new BookingLimitException(self::MAX_ACTIVE);
         }
 
         return Booking::create([

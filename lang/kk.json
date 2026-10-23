@@ -331,5 +331,9 @@
     "Cannot delete: there are related records": "Жою мүмкін емес: байланысты жазбалар бар",
     "Booking status №:id changed": "№:id өтінімінің мәртебесі өзгертілді",
     "Booking №:id submitted": "№:id өтінім жіберілді",
-    "Invalid e-mail or password": "E-mail немесе құпиясөз қате"
+    "Invalid e-mail or password": "E-mail немесе құпиясөз қате",
+    "Active bookings limit exceeded (:limit)": "Белсенді өтінімдер лимиті асып кетті (:limit)",
+    "Something went wrong. We are already working on it.": "Бірдеңе дұрыс болмады. Біз оны қазірдің өзінде шешіп жатырмыз.",
+    "This car is currently out of stock.": "Бұл автокөлік қазір қолда жоқ.",
+"You are already booked for a test drive of this car.": "Сіз бұл автокөлікке тест-драйвқа жазылып қойғансыз."
 }

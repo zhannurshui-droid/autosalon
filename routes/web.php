@@ -92,3 +92,7 @@ Route::get('/locale/{locale}', function (string $locale) {
 
     return back();
 })->name('locale');
+
+Route::get('/test-error', function () {
+    throw new \RuntimeException('Проверка');
+});

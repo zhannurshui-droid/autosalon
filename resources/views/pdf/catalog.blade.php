@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="UTF-8">
     <style>
@@ -13,17 +13,17 @@
     </style>
 </head>
 <body>
-    <h1>{{ config('app.name') }}: каталог на {{ now()->format('d.m.Y') }}</h1>
+    <h1>{{ config('app.name') }}: {{ __('Catalog as of :date', ['date' => now()->translatedFormat('j F Y')]) }}</h1>
 
     <table>
         <thead>
             <tr>
                 <th>№</th>
-                <th>Фото</th>
-                <th>Название</th>
-                <th>Марка</th>
-                <th>Год</th>
-                <th>Цена, $</th>
+                <th>{{ __('Photo') }}</th>
+                <th>{{ __('Title') }}</th>
+                <th>{{ __('Brand') }}</th>
+                <th>{{ __('Year') }}</th>
+                <th>{{ __('Price, $') }}</th>
             </tr>
         </thead>
         <tbody>
@@ -44,6 +44,6 @@
         </tbody>
     </table>
 
-    <p class="total">Всего записей: {{ $cars->count() }}</p>
+    <p class="total">{{ __('Total records: :count', ['count' => $cars->count()]) }}</p>
 </body>
 </html>

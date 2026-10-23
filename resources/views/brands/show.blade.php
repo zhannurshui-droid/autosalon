@@ -4,6 +4,7 @@
 @section('content')
     <h1>{{ $brand->name }}</h1>
     <p>{{ $brand->description }}</p>
+    <p>{{ trans_choice('messages.brand_cars', $brand->cars->count()) }}</p>
 
     @forelse ($brand->cars as $car)
         <x-card :title="$car->title" :url="route('cars.show', $car)">

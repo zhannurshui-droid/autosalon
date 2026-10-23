@@ -331,5 +331,9 @@
     "Cannot delete: there are related records": "Нельзя удалить: есть связанные записи",
     "Booking status №:id changed": "Статус заявки №:id изменён",
     "Booking №:id submitted": "Заявка №:id отправлена",
-    "Invalid e-mail or password": "Неверный e-mail или пароль"
+    "Invalid e-mail or password": "Неверный e-mail или пароль",
+    "Active bookings limit exceeded (:limit)": "Превышен лимит активных заявок (:limit)",
+    "Something went wrong. We are already working on it.": "Что-то пошло не так. Мы уже разбираемся.",
+    "This car is currently out of stock.": "Этот автомобиль сейчас не в наличии.",
+"You are already booked for a test drive of this car.": "Вы уже записаны на тест-драйв этого автомобиля."
 }

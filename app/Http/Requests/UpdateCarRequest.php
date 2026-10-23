@@ -53,20 +53,5 @@ class UpdateCarRequest extends FormRequest
             'cover.mimes' => 'Допустимые форматы: jpg, png, webp.',
             'cover.max'   => 'Размер файла не больше 2 МБ.',
         ];
-    }
-
-    public function attributes(): array
-    {
-        return [
-            'brand_id'    => 'марка',
-            'title'       => 'название',
-            'year'        => 'год выпуска',
-            'price'       => 'цена',
-            'mileage'     => 'пробег',
-            'description' => 'описание',
-            'in_stock'    => 'в наличии',
-            'cover' => 'фото'
-        ];
-    }
-    
+    } 
 }

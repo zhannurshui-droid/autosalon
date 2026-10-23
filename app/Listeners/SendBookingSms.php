@@ -10,12 +10,11 @@ class SendBookingSms
     public function __construct(private SmsSender $sms) {}
 
     public function handle(BookingCreated $event): void
-    {
-        $booking = $event->booking->loadMissing('car');
-
-        $this->sms->send(
-            $booking->phone,
-            "Заявка №{$booking->id} на тест-драйв «{$booking->car->title}» принята."
-        );
+{
+    try {
+        $this->sms->send($event->booking->phone, '...текст...');
+    } catch (\Throwable $e) {
+        report($e);
     }
+}
 }

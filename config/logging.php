@@ -34,6 +34,12 @@ return [
     'deprecations' => [
         'channel' => env('LOG_DEPRECATIONS_CHANNEL', 'null'),
         'trace' => env('LOG_DEPRECATIONS_TRACE', false),
+        'bookings' => [
+    'driver' => 'daily',
+    'path'   => storage_path('logs/bookings.log'),
+    'level'  => 'info',
+    'days'   => 14,
+],
     ],
 
     /*

@@ -24,6 +24,7 @@
         <button type="submit">{{ __('Search') }}</button>
         <a href="{{ route('cars.index') }}">{{ __('Reset') }}</a>
     </form>
+    <p>{{ trans_choice('messages.cars_found', $cars->total()) }}</p>
 
     <a href="{{ route('cars.pdf', request()->query()) }}" class="btn">{{ __('Download PDF') }}</a>
     <a href="{{ route('cars.export', request()->query()) }}" class="btn">{{ __('Download Excel') }}</a>

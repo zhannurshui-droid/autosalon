@@ -1,0 +1,15 @@
+$kind: http-request
+url: "{{base}}/cars"
+method: GET
+auth:
+  type: noauth
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Статус 200', () => pm.response.to.have.status(200));
+      const j = pm.response.json();
+      pm.test('data — массив', () => pm.expect(j.data).to.be.an('array'));
+      pm.test('Есть пагинация (links и meta)', () => { pm.expect(j.links).to.exist; pm.expect(j.meta).to.exist; });
+      pm.test('Content-Type — JSON', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json'));
+    language: text/javascript
+order: 1000

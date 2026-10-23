@@ -1,0 +1,22 @@
+$kind: http-request
+url: "{{base}}/cars/{{car_id}}/bookings"
+method: POST
+body:
+  type: json
+  content: |-
+    {
+      "phone": "+77011234567",
+      "comment": "Хочу тест-драйв"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Статус 201', () => pm.response.to.have.status(201));
+      const b = pm.response.json().data;
+      pm.test('Статус заявки — new', () => pm.expect(b.status).to.eql('new'));
+      pm.test('Телефон сохранён', () => pm.expect(b.phone).to.eql('+77011234567'));
+      pm.test('Вложена машина', () => pm.expect(b.car).to.exist);
+      pm.test('user_id наружу не отдаётся', () => pm.expect(b.user_id).to.be.undefined);
+      pm.collectionVariables.set('booking_id', b.id);
+    language: text/javascript
+order: 1000

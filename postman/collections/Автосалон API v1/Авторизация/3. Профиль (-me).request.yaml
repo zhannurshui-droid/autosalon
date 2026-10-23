@@ -1,0 +1,14 @@
+$kind: http-request
+name: 3. Профиль (/me)
+url: "{{base}}/me"
+method: GET
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Статус 200', () => pm.response.to.have.status(200));
+      const j = pm.response.json();
+      const u = j.data || j;
+      pm.test('Вернулся e-mail нашего пользователя', () => pm.expect(u.email).to.eql(pm.collectionVariables.get('email')));
+      pm.test('Пароль в ответе не отдаётся', () => pm.expect(u.password).to.be.undefined);
+    language: text/javascript
+order: 3000

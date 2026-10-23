@@ -4,16 +4,22 @@
 @section('content')
     <h1>Уведомления</h1>
 
-    <form method="POST" action="{{ route('admin.notifications.read') }}">
-        @csrf
-        <button>Отметить всё прочитанным</button>
-    </form>
+    @if (auth()->user()->unreadNotifications->count() > 0)
+        <form method="POST" action="{{ route('admin.notifications.read') }}">
+            @csrf
+            <button type="submit">Отметить всё прочитанным</button>
+        </form>
+    @endif
 
     @forelse ($notifications as $n)
         <div @class(['unread' => ! $n->read_at])>
-            {{ $n->created_at->diffForHumans() }} — {{ $n->data['text'] }}
+            {{ $n->created_at->diffForHumans() }}: {{ $n->data['text'] }}
+
+            @if (! empty($n->data['file']))
+                <a href="{{ route('admin.exports.download', $n->data['file']) }}">Скачать</a>
+            @endif
         </div>
     @empty
-        <x-alert type="info">Уведомлений нет.</x-alert>
+        <p>Уведомлений нет.</p>
     @endforelse
 @endsection

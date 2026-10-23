@@ -1,0 +1,19 @@
+$kind: collection
+description: ""
+variables:
+  base: http://127.0.0.1:8000/api/v1
+  email: user@test.kz
+  password: password
+  car_id: "1"
+  token: ""
+  booking_id: ""
+scripts:
+  - type: http:beforeRequest
+    code: "pm.request.headers.upsert({ key: 'Accept', value: 'application/json' });"
+    language: text/javascript
+auth:
+  - id: cf3998f3-793e-4b75-84f7-ec1d273ff060
+    type: bearer
+    name: bearer auth
+    credentials:
+      token: "{{token}}"

@@ -28,7 +28,9 @@ class CarController extends Controller
             ->paginate(9)
             ->withQueryString();
 
-        $brands = Brand::withCount('cars')->orderBy('name')->get();
+        $brands = Cache::remember('brands.menu', now()->addHour(), fn () =>
+    Brand::withCount('cars')->orderBy('name')->get()
+);
 
         return view('cars.index', compact('cars', 'brands'));
     }
@@ -94,18 +96,11 @@ class CarController extends Controller
     }
 
     public function destroy(Car $car)
-    {
-        if ($car->cover) {
-            Storage::disk('public')->delete($car->cover);
-        }
-        if ($car->attachment) {
-            Storage::delete($car->attachment);
-        }
+{
+    $car->delete();
 
-        $car->delete();
-
-        return redirect()->route('cars.index');
-    }
+    return redirect()->route('cars.index');
+}
 
     public function attachment(Car $car)
     {

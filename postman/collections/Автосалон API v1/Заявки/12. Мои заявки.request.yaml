@@ -1,0 +1,19 @@
+$kind: http-request
+url: "{{base}}/me/bookings?per_page=5"
+method: GET
+queryParams:
+  per_page: "5"
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Статус 200', () => pm.response.to.have.status(200));
+      const j = pm.response.json();
+      pm.test('data — массив', () => pm.expect(j.data).to.be.an('array'));
+      pm.test('Не больше 5 записей (per_page)', () => pm.expect(j.data.length).to.be.at.most(5));
+      pm.test('Созданная заявка есть в списке', () => {
+          const id = pm.collectionVariables.get('booking_id');
+          pm.expect(j.data.map(x => x.id)).to.include(id);
+      });
+      pm.test('Есть пагинация', () => { pm.expect(j.links).to.exist; pm.expect(j.meta).to.exist; });
+    language: text/javascript
+order: 6000

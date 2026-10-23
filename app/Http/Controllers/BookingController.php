@@ -2,25 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\BookingCreated;
 use App\Http\Requests\StoreBookingRequest;
 use App\Models\Car;
 use App\Services\BookingService;
-use App\Mail\BookingReceived;
-use Illuminate\Support\Facades\Mail;
-use App\Models\User;
-use App\Notifications\NewBooking;
-use Illuminate\Support\Facades\Notification;
+use App\Jobs\RemindAboutBooking;
 
 class BookingController extends Controller
 {
-public function store(StoreBookingRequest $request, Car $car, BookingService $service)
-{
-    $booking = $service->create($request->user(), $car, $request->validated());
-    $booking->load(['user', 'car']);
+    public function store(StoreBookingRequest $request, Car $car, BookingService $service)
+    {
+        $booking = $service->create($request->user(), $car, $request->validated());
 
-    Mail::to($request->user())->send(new BookingReceived($booking));
-    Notification::send(User::where('role', 'admin')->get(), new NewBooking($booking));
+        BookingCreated::dispatch($booking);
 
-    return back()->with('success', "Заявка №{$booking->id} отправлена");
-}
+        $booking = $service->create($request->user(), $car, $request->validated());
+
+BookingCreated::dispatch($booking);
+RemindAboutBooking::dispatch($booking)->delay(now()->addMinutes(2));
+
+return back()->with('success', "Заявка №{$booking->id} отправлена");
+    }
 }

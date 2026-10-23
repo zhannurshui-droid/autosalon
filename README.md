@@ -56,3 +56,58 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## API
+
+Базовый адрес: `http://127.0.0.1:8000/api/v1`. Формат ответов: JSON. Лимит: 60 запросов в минуту с одного IP (заголовки `X-RateLimit-Limit`, `X-RateLimit-Remaining`; при превышении код 429 и заголовок `Retry-After`).
+
+### Адреса
+
+| Метод | Адрес | Параметры | Ответ | Ошибки |
+|---|---|---|---|---|
+| GET | `/ping` | нет | `{"status":"ok","message":"...","time":"2026-10-22T13:30:18+05:00"}` | 429 |
+| GET | `/cars` | `q` (поиск по названию и описанию), `brand` (id марки), `min`, `max` (цена), `sort` (`title`, `year`, `-year`, `price`, `-price`), `per_page` (1-50, по умолчанию 10), `page` | `data` (список машин), `links`, `meta` | 422, 429 |
+| GET | `/cars/{id}` | нет | `data` (одна машина с маркой) | 404, 429 |
+| GET | `/cars/random` | нет | `data` (случайная машина в наличии) | 404, 429 |
+| GET | `/brands` | нет | `data` (марки с `cars_count`) | 429 |
+| GET | `/brands/{id}/cars` | `per_page` (1-50) | `data`, `links`, `meta` (машины марки) | 404, 422, 429 |
+| GET | `/stats` | нет | `data`: `total_cars`, `by_brand`, `last_added` (кэш 5 минут) | 429 |
+
+### Пример ответа: `GET /api/v1/cars/1`
+
+```json
+{
+  "data": {
+    "id": 1,
+    "title": "Toyota Camry",
+    "year": 2022,
+    "price": 28000,
+    "mileage": 15000,
+    "in_stock": true,
+    "description": "Бизнес-седан",
+    "cover_url": "http://127.0.0.1:8000/images/no-cover.png",
+    "brand": {
+      "id": 1,
+      "name": "Toyota",
+      "description": "Японский производитель",
+      "links": { "cars": "http://127.0.0.1:8000/api/v1/brands/1/cars" }
+    },
+    "created_at": "2026-10-21T15:09:51+05:00",
+    "links": { "self": "http://127.0.0.1:8000/api/v1/cars/1" }
+  }
+}
+```
+
+### Коды ответов
+
+| Код | Когда |
+|---|---|
+| 200 | успех |
+| 404 | записи или адреса нет: `{"message":"Запись не найдена"}` |
+| 422 | неверный параметр: `{"message":"...","errors":{"sort":["..."]}}` |
+| 429 | превышен лимит запросов, смотрите заголовок `Retry-After` |
+
+### Проверка из консоли (PowerShell)
+
+```
+curl.exe -i "http://127.0.0.1:8000/api/v1/cars?per_page=2&sort=-price"
+```

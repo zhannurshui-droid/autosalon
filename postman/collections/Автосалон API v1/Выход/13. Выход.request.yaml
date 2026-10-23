@@ -1,0 +1,8 @@
+$kind: http-request
+url: "{{base}}/logout"
+method: POST
+scripts:
+  - type: afterResponse
+    code: pm.test('Статус 200 или 204', () => pm.expect([200, 204]).to.include(pm.response.code));
+    language: text/javascript
+order: 1000

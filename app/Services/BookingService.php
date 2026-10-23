@@ -6,7 +6,6 @@ use App\Models\Booking;
 use App\Models\Car;
 use App\Models\User;
 use Illuminate\Validation\ValidationException;
-use App\Contracts\SmsSender;
 
 class BookingService
 {
@@ -34,22 +33,11 @@ class BookingService
             ]);
         }
 
-        $booking = Booking::create([
-    'user_id' => $user->id,
-    'car_id'  => $car->id,
-    'phone'   => $data['phone'],
-    'comment' => $data['comment'] ?? null,
-]);
-
-$this->sms->send(
-    $booking->phone,
-    "Заявка №{$booking->id} на тест-драйв «{$car->title}» принята."
-);
-
-return $booking;
+        return Booking::create([
+            'user_id' => $user->id,
+            'car_id'  => $car->id,
+            'phone'   => $data['phone'],
+            'comment' => $data['comment'] ?? null,
+        ]);
     }
-
-    public function __construct(private SmsSender $sms)
-{
-}
 }

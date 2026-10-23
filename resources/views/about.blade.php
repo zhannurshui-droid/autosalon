@@ -1,10 +1,10 @@
 @extends('layouts.app')
-@section('title', 'О проекте')
+@section('title', __('About'))
 
 @section('content')
-    <h1>О проекте</h1>
+    <h1>{{ __('About') }}</h1>
     <div class="card">
-        <p>Автор: {{ $fio }}, группа {{ $group }}</p>
+        <p>{{ __('Author: :name, group :group', ['name' => $fio, 'group' => $group]) }}</p>
         <p>{{ $info }}</p>
     </div>
 @endsection

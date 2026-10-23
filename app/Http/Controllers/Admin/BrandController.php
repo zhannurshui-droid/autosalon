@@ -12,6 +12,7 @@ class BrandController extends Controller
     public function index()
     {
         $brands = Brand::withCount('cars')->orderBy('name')->paginate(15);
+
         return view('admin.brands.index', compact('brands'));
     }
 
@@ -23,7 +24,8 @@ class BrandController extends Controller
     public function store(StoreBrandRequest $request)
     {
         Brand::create($request->validated());
-        return redirect()->route('admin.brands.index')->with('success', 'Марка добавлена');
+
+        return redirect()->route('admin.brands.index')->with('success', __('Brand added'));
     }
 
     public function edit(Brand $brand)
@@ -34,16 +36,18 @@ class BrandController extends Controller
     public function update(UpdateBrandRequest $request, Brand $brand)
     {
         $brand->update($request->validated());
-        return redirect()->route('admin.brands.index')->with('success', 'Изменения сохранены');
+
+        return redirect()->route('admin.brands.index')->with('success', __('Changes saved'));
     }
 
     public function destroy(Brand $brand)
     {
         if ($brand->cars()->exists()) {
-            return back()->with('error', 'Нельзя удалить: есть связанные записи');
+            return back()->with('error', __('Cannot delete: there are related records'));
         }
 
         $brand->delete();
-        return back()->with('success', 'Марка удалена');
+
+        return back()->with('success', __('Brand deleted'));
     }
 }

@@ -4,7 +4,7 @@
 @section('content')
     <div class="error-box">
         <p class="code">404</p>
-        <x-alert type="error">Такой страницы нет.</x-alert>
-        <p><a href="{{ route('home') }}">← На главную</a></p>
+        <x-alert type="error">{{ __('Page not found.') }}</x-alert>
+        <p><a href="{{ route('home') }}">{{ __('← To home') }}</a></p>
     </div>
 @endsection

@@ -1,13 +1,13 @@
 @extends('layouts.admin')
-@section('title', 'Уведомления')
+@section('title', __('Notifications'))
 
 @section('content')
-    <h1>Уведомления</h1>
+    <h1>{{ __('Notifications') }}</h1>
 
     @if (auth()->user()->unreadNotifications->count() > 0)
         <form method="POST" action="{{ route('admin.notifications.read') }}">
             @csrf
-            <button type="submit">Отметить всё прочитанным</button>
+            <button type="submit">{{ __('Mark all as read') }}</button>
         </form>
     @endif
 
@@ -16,10 +16,10 @@
             {{ $n->created_at->diffForHumans() }}: {{ $n->data['text'] }}
 
             @if (! empty($n->data['file']))
-                <a href="{{ route('admin.exports.download', $n->data['file']) }}">Скачать</a>
+                <a href="{{ route('admin.exports.download', $n->data['file']) }}">{{ __('Download') }}</a>
             @endif
         </div>
     @empty
-        <p>Уведомлений нет.</p>
+        <p>{{ __('No notifications.') }}</p>
     @endforelse
 @endsection

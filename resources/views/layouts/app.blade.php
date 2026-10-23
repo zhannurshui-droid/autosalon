@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@yield('title')---{{ config('app.name') }}</title>
+    <title>@yield('title') — {{ config('app.name') }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body>
@@ -17,13 +17,13 @@
     <main class="container">
         @if (session('success'))
             <x-alert type="success">{{ session('success') }}</x-alert>
-         @endif
+        @endif
         @if (session('error'))
             <x-alert type="error">{{ session('error') }}</x-alert>
         @endif
 
-    @yield('content')
-</main>
+        @yield('content')
+    </main>
 
     @include('partials.footer')
 </body>

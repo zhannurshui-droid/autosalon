@@ -1,7 +1,7 @@
 @extends('layouts.admin')
-@section('title', 'Новый автомобиль')
+@section('title', __('New car'))
 
 @section('content')
-    <h1>Новый автомобиль</h1>
+    <h1>{{ __('New car') }}</h1>
     @include('admin.cars._form', ['action' => route('admin.cars.store')])
 @endsection

@@ -15,6 +15,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\BookingController as AdminBookingController;
 use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\ExportController;
+use App\Http\Middleware\SetLocale;
 
 Route::get('/',[PageController::class, 'home'])->name('home');
 Route::get('/about',[PageController::class, 'about'])->name('about');
@@ -84,3 +85,10 @@ Route::get('/profile', [ProfileController::class, 'index'])
     ->middleware('auth')->name('profile');
 
 Route::get('/mail-preview', fn () => new \App\Mail\BookingReceived(\App\Models\Booking::latest()->first()));
+
+Route::get('/locale/{locale}', function (string $locale) {
+    abort_unless(in_array($locale, SetLocale::LOCALES, true), 404);
+    session(['locale' => $locale]);
+
+    return back();
+})->name('locale');

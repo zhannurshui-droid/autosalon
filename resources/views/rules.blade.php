@@ -1,9 +1,9 @@
 @extends('layouts.app')
-@section('title', 'Правила')
+@section('title', __('Rules'))
 
 @section('content')
-    <h1>Правила автосалона</h1>
+    <h1>{{ __('Dealership rules') }}</h1>
     <div class="card">
-        <p>Тест-драйв проводится по предварительной записи при наличии водительского удостоверения.</p>
+        <p>{{ __("Test drives are held by prior appointment with a valid driver's license.") }}</p>
     </div>
 @endsection

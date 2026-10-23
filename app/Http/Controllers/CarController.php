@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Storage;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Exports\CarsExport;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Cache;
 
 class CarController extends Controller
 {
@@ -28,8 +29,10 @@ class CarController extends Controller
             ->paginate(9)
             ->withQueryString();
 
-        $brands = Cache::remember('brands.menu', now()->addHour(), fn () =>
-    Brand::withCount('cars')->orderBy('name')->get()
+        $brands = Brand::hydrate(
+    Cache::remember('brands.menu.v3', now()->addHour(), fn () =>
+        Brand::withCount('cars')->orderBy('name')->get()->toArray()
+    )
 );
 
         return view('cars.index', compact('cars', 'brands'));

@@ -1,19 +1,24 @@
 @extends('layouts.app')
-@section('title', 'Мои заявки')
+@section('title', __('My bookings'))
 
 @section('content')
     @if ($notifications->count())
-    <h2>Уведомления</h2>
-    @foreach ($notifications as $n)
-        <div @class(['unread' => ! $n->read_at])>
-            {{ $n->created_at->diffForHumans() }} — {{ $n->data['text'] }}
-        </div>
-    @endforeach
-@endif
-<h1>Мои заявки</h1>
+        <h2>{{ __('Notifications') }}</h2>
+        @foreach ($notifications as $n)
+            <div @class(['unread' => ! $n->read_at])>
+                {{ $n->created_at->diffForHumans() }} — {{ $n->data['text'] }}
+            </div>
+        @endforeach
+    @endif
+
+    <h1>{{ __('My bookings') }}</h1>
 
     @php
-        $statuses = ['new' => 'Новая', 'processed' => 'Обработана', 'rejected' => 'Отклонена'];
+        $statuses = [
+            'new'       => __('New'),
+            'processed' => __('Processed'),
+            'rejected'  => __('Rejected'),
+        ];
     @endphp
 
     @forelse ($bookings as $booking)
@@ -21,6 +26,6 @@
             {{ $booking->created_at->format('d.m.Y H:i') }} — {{ $statuses[$booking->status] ?? $booking->status }}
         </x-card>
     @empty
-        <x-alert type="info">Заявок пока нет.</x-alert>
+        <x-alert type="info">{{ __('No bookings yet.') }}</x-alert>
     @endforelse
 @endsection

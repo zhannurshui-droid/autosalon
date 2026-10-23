@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Events\BookingCreated;
 use App\Http\Requests\StoreBookingRequest;
+use App\Jobs\RemindAboutBooking;
 use App\Models\Car;
 use App\Services\BookingService;
-use App\Jobs\RemindAboutBooking;
 
 class BookingController extends Controller
 {
@@ -15,12 +15,8 @@ class BookingController extends Controller
         $booking = $service->create($request->user(), $car, $request->validated());
 
         BookingCreated::dispatch($booking);
+        RemindAboutBooking::dispatch($booking)->delay(now()->addMinutes(2));
 
-        $booking = $service->create($request->user(), $car, $request->validated());
-
-BookingCreated::dispatch($booking);
-RemindAboutBooking::dispatch($booking)->delay(now()->addMinutes(2));
-
-return back()->with('success', "Заявка №{$booking->id} отправлена");
+        return back()->with('success', __('Booking №:id submitted', ['id' => $booking->id]));
     }
 }

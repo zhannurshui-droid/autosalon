@@ -26,6 +26,6 @@ class BookingController extends Controller
         $booking->load(['user', 'car']);
         $booking->user->notify(new BookingStatusChanged($booking));
 
-        return back()->with('success', "Статус заявки №{$booking->id} изменён");
+        return back()->with('success', __('Booking status №:id changed', ['id' => $booking->id]));
     }
 }

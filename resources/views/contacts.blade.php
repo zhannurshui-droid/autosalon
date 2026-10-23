@@ -1,11 +1,11 @@
 @extends('layouts.app')
-@section('title', 'Контакты')
+@section('title', __('Contacts'))
 
 @section('content')
-    <h1>Контакты</h1>
+    <h1>{{ __('Contacts') }}</h1>
     <div class="card">
-        <p>Адрес: {{ $address }}</p>
-        <p>Телефон: {{ $phone }}</p>
+        <p>{{ __('Address') }}: {{ $address }}</p>
+        <p>{{ __('Phone') }}: {{ $phone }}</p>
         <p>E-mail: {{ $email }}</p>
     </div>
 @endsection

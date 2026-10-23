@@ -1,8 +1,8 @@
 @extends('layouts.app')
-@section('title', 'Вход')
+@section('title', __('Login'))
 
 @section('content')
-    <h1>Вход</h1>
+    <h1>{{ __('Login') }}</h1>
 
     <form method="POST" action="{{ route('login') }}">
         @csrf
@@ -13,16 +13,16 @@
         </label>
         @error('email') <div class="error">{{ $message }}</div> @enderror
 
-        <label>Пароль
+        <label>{{ __('Password') }}
             <input type="password" name="password"
                    @class(['invalid' => $errors->has('password')])>
         </label>
         @error('password') <div class="error">{{ $message }}</div> @enderror
 
         <label>
-            <input type="checkbox" name="remember" value="1"> Запомнить меня
+            <input type="checkbox" name="remember" value="1"> {{ __('Remember me') }}
         </label>
 
-        <button>Войти</button>
+        <button>{{ __('Login') }}</button>
     </form>
 @endsection

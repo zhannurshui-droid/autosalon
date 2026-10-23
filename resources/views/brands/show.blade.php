@@ -7,9 +7,9 @@
 
     @forelse ($brand->cars as $car)
         <x-card :title="$car->title" :url="route('cars.show', $car)">
-            {{ $car->year }} год, {{ number_format($car->price, 0, ',', ' ') }} $
+            {{ __(':year year', ['year' => $car->year]) }}, {{ number_format($car->price, 0, ',', ' ') }} $
         </x-card>
     @empty
-        <x-alert type="info">Машин этой марки пока нет.</x-alert>
+        <x-alert type="info">{{ __('No cars of this brand yet.') }}</x-alert>
     @endforelse
 @endsection

@@ -17,7 +17,8 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->web(append: [
-            \App\Http\Middleware\LogVisit::class,
+    \App\Http\Middleware\LogVisit::class,
+    \App\Http\Middleware\SetLocale::class,
         ]);
         $middleware->alias([
     'admin.key' => \App\Http\Middleware\CheckAdminKey::class,

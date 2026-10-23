@@ -9,61 +9,59 @@ use App\Http\Requests\StoreCarRequest;
 use App\Http\Requests\UpdateCarRequest;
 use Illuminate\Support\Facades\Gate;
 
-use Illuminate\Http\Request;
-
 class CarController extends Controller
 {
     public function index()
-{
-    $cars = Car::with(['brand', 'user'])->latest()->paginate(15);
+    {
+        $cars = Car::with(['brand', 'user'])->latest()->paginate(15);
 
-    return view('admin.cars.index', compact('cars'));
-}
-
-public function create()
-{
-    Gate::authorize('create', Car::class);
-
-    $brands = Brand::orderBy('name')->get();
-
-    return view('admin.cars.create', compact('brands'));
-}
-
-public function store(StoreCarRequest $request)
-{
-    $data = $request->safe()->except('cover') + ['user_id' => $request->user()->id];
-
-    if ($request->hasFile('cover')) {
-        $data['cover'] = $request->file('cover')->store('covers', 'public');
+        return view('admin.cars.index', compact('cars'));
     }
 
-    Car::create($data);
+    public function create()
+    {
+        Gate::authorize('create', Car::class);
 
-    return redirect()->route('admin.cars.index')->with('success', 'Автомобиль добавлен');
-}
+        $brands = Brand::orderBy('name')->get();
 
-public function edit(Car $car)
-{
-    Gate::authorize('update', $car);
+        return view('admin.cars.create', compact('brands'));
+    }
 
-    $brands = Brand::orderBy('name')->get();
+    public function store(StoreCarRequest $request)
+    {
+        $data = $request->safe()->except('cover') + ['user_id' => $request->user()->id];
 
-    return view('admin.cars.edit', compact('car', 'brands'));
-}
+        if ($request->hasFile('cover')) {
+            $data['cover'] = $request->file('cover')->store('covers', 'public');
+        }
 
-public function destroy(Car $car)
-{
-    $car->delete();
+        Car::create($data);
 
-    return redirect()->route('cars.index');
-}
+        return redirect()->route('admin.cars.index')->with('success', __('Car added'));
+    }
+
+    public function edit(Car $car)
+    {
+        Gate::authorize('update', $car);
+
+        $brands = Brand::orderBy('name')->get();
+
+        return view('admin.cars.edit', compact('car', 'brands'));
+    }
 
     public function update(UpdateCarRequest $request, Car $car)
-{
-    $car->update($request->validated());
+    {
+        $car->update($request->validated());
 
-    return redirect()->route('admin.cars.index')->with('success', 'Изменения сохранены');
-}
+        return redirect()->route('admin.cars.index')->with('success', __('Changes saved'));
+    }
+
+    public function destroy(Car $car)
+    {
+        $car->delete();
+
+        return redirect()->route('admin.cars.index');
+    }
 
     private function rules(): array
     {

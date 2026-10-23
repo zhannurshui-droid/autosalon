@@ -10,15 +10,18 @@ use Illuminate\Support\Facades\Cache;
 class PageController extends Controller
 {
     public function home()
-    {
-        $data = Cache::remember('home.stats', now()->addMinutes(10), fn () => [
-            'total'  => Car::count(),
-            'brands' => Brand::withCount('cars')->orderBy('name')->get(),
-            'cars'   => Car::with('brand')->latest()->take(6)->get(),
-        ]);
+{
+    $stats = Cache::remember('home.stats.v2', now()->addMinutes(10), fn () => [
+        'total'  => Car::count(),
+        'brands' => Brand::withCount('cars')->orderBy('name')->get()->toArray(),
+    ]);
 
-        return view('home', $data);
-    }
+    return view('home', [
+        'total'  => $stats['total'],
+        'brands' => Brand::hydrate($stats['brands']),
+        'cars'   => Car::with('brand')->latest()->take(6)->get(),
+    ]);
+}
 
     public function about()
     {

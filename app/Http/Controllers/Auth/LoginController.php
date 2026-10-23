@@ -18,10 +18,6 @@ class LoginController extends Controller
         $credentials = $request->validate([
             'email'    => ['required', 'email'],
             'password' => ['required'],
-        ], [
-            'email.required'    => 'Введите e-mail.',
-            'email.email'       => 'Введите корректный e-mail.',
-            'password.required' => 'Введите пароль.',
         ]);
 
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
@@ -31,15 +27,21 @@ class LoginController extends Controller
         }
 
         return back()
-            ->withErrors(['email' => 'Неверный e-mail или пароль'])
+            ->withErrors(['email' => __('Invalid e-mail or password')])
             ->onlyInput('email');
     }
 
     public function destroy(Request $request)
     {
+        $locale = $request->session()->get('locale');
+
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+
+        if ($locale) {
+            $request->session()->put('locale', $locale);
+        }
 
         return redirect()->route('home');
     }

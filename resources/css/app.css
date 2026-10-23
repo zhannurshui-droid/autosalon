@@ -63,3 +63,6 @@ form input[type=checkbox] { display: inline-block; min-width: 0; }
     border-radius: 8px;
 }
 .unread { font-weight: bold; background: #fef9c3; padding: 6px; margin: 4px 0; }
+
+.lang { display: inline-block; margin-left: 12px; }
+.lang a.active { font-weight: bold; text-decoration: underline; }
